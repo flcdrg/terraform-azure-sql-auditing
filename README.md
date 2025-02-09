@@ -52,12 +52,16 @@ az ad app federated-credential create --id xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
 
 Update the credential.json file and replace 'plan' with 'apply' (3 places). Create a second federated credential by running the above command again.
 
-Back in HCP Terraform, set the following variables in your workspace
+Back in HCP Terraform, set the following environment variables in your workspace
 
-TFC_AZURE_PROVIDER_AUTH = true
-TFC_AZURE_RUN_CLIENT_ID = \<appId value\>
-ARM_SUBSCRIPTION_ID = Azure subscription id
-ARM_TENANT_ID = Azure tenant id
+`TFC_AZURE_PROVIDER_AUTH` = true
+`TFC_AZURE_RUN_CLIENT_ID` = \<appId value\>
+`ARM_SUBSCRIPTION_ID` = Azure subscription id
+`ARM_TENANT_ID` = Azure tenant id
+
+And the following Terraform variables:
+
+`mssql_azuread_administrator_object_id` = the Entra ID object ID of an account to set as administrator
 
 Click on your profile and select **Account settings**, then **Tokens**.
 Click on **Create an API token**
