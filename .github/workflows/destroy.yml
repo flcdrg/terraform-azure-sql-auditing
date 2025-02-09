@@ -1,0 +1,39 @@
+# This workflow runs every day to clean up the resources created by the Terraform configuration
+
+name: "Destroy"
+
+on:
+  schedule:
+    # Run every day at 07:00 UTC
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    name: "Destroy"
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        run: terraform init -no-color -input=false
+
+      - name: Terraform Apply
+        run: terraform apply -destroy -auto-approve -input=false -no-color
