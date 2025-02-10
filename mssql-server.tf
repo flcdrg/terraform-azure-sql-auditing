@@ -34,3 +34,13 @@ resource "azurerm_mssql_firewall_rule" "azure_services" {
 resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
   server_id = azurerm_mssql_server.mssql.id
 }
+
+resource "azurerm_monitor_diagnostic_setting" "mssql_server_to_log_analytics" {
+  name                       = "example-diagnostic-setting"
+  target_resource_id         = azurerm_mssql_server.mssql.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+
+  enabled_log {
+    category = "SQLSecurityAuditEvents"
+  }
+}
