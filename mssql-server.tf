@@ -37,13 +37,21 @@ resource "azurerm_mssql_firewall_rule" "azure_services" {
 # }
 
 # Use Storage Account for Extended Auditing
+# resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
+#   server_id = azurerm_mssql_server.mssql.id
+
+#   storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
+#   storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
+#   storage_account_access_key_is_secondary = false
+#   retention_in_days                       = 6
+# }
+
+# Use Storage Account for Extended Auditing, with managed identity authentication
 resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
   server_id = azurerm_mssql_server.mssql.id
 
-  storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
-  storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
-  storage_account_access_key_is_secondary = false
-  retention_in_days                       = 6
+  storage_endpoint  = azurerm_storage_account.storage.primary_blob_endpoint
+  retention_in_days = 6
 }
 
 # Watch out for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226,
@@ -68,8 +76,6 @@ resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
 #     category = "SQLSecurityAuditEvents"
 #   }
 # }
-
-# Error: creating Monitor Diagnostics Setting "diagnostic_setting" for Resource "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-terraform-sql-auditing-australiaeast/providers/Microsoft.Sql/servers/sql-terraform-sql-auditing-australiaeast/databases/master": unexpected status 404 (404 Not Found) with error: ResourceNotFound: The Resource 'Microsoft.Sql/servers/sql-terraform-sql-auditing-australiaeast/databases/master' under resource group 'rg-terraform-sql-auditing-australiaeast' was not found.
 
 resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
   name                           = "diagnostic_setting"
