@@ -90,6 +90,10 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
     category = "SQLSecurityAuditEvents"
   }
 
+  metric {
+    category = "AllMetrics"
+  }
+
   depends_on = [
     # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
     azurerm_mssql_database.primary,

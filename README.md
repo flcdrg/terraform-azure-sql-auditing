@@ -27,10 +27,12 @@ In HCP Terraform:
     az group create --name rg-terraform-sql-auditing-australiaeast --location australiaeast
     ```
 
-2. Create service principal
+2. Create service principal and role assignments
 
     ```bash
     az ad sp create-for-rbac --name sp-terraform-sql-auditing-australiaeast --role Contributor --scopes /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-terraform-sql-auditing-australiaeast
+
+    az role assignment create --assignee sp-terraform-sql-auditing-australiaeast --role " Role Based Access Control Administrator" --scope /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-terraform-sql-auditing-australiaeast
     ```
 
 Make a note of the appID and tenant ID
