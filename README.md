@@ -2,6 +2,11 @@
 
 Enabling Azure SQL extended auditing in Terraform
 
+See also:
+
+- <https://learn.microsoft.com/en-us/azure/templates/microsoft.sql/servers/extendedauditingsettings?pivots=deployment-language-bicep&WT.mc_id=DOP-MVP-5001655>
+- <https://learn.microsoft.com/azure/azure-sql/database/auditing-server-level-database-level?view=azuresql&WT.mc_id=DOP-MVP-5001655>
+
 ## Developer/environment configuration
 
 In HCP Terraform:
