@@ -31,9 +31,22 @@ resource "azurerm_mssql_firewall_rule" "azure_services" {
   end_ip_address   = "0.0.0.0"
 }
 
+# Use this if you just want Auditing for Log Analytics and/or Event Hub
+# resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
+#   server_id = azurerm_mssql_server.mssql.id
+# }
+
+# Use Storage Account for Extended Auditing
 resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
   server_id = azurerm_mssql_server.mssql.id
+
+  storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
+  storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
+  storage_account_access_key_is_secondary = false
+  retention_in_days                       = 6
 }
+
+# Watch out for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226,
 
 # resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
 #   name                       = "diagnostic_setting"
@@ -56,6 +69,8 @@ resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
 #   }
 # }
 
+# Error: creating Monitor Diagnostics Setting "diagnostic_setting" for Resource "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-terraform-sql-auditing-australiaeast/providers/Microsoft.Sql/servers/sql-terraform-sql-auditing-australiaeast/databases/master": unexpected status 404 (404 Not Found) with error: ResourceNotFound: The Resource 'Microsoft.Sql/servers/sql-terraform-sql-auditing-australiaeast/databases/master' under resource group 'rg-terraform-sql-auditing-australiaeast' was not found.
+
 resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
   name                           = "diagnostic_setting"
   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
@@ -68,4 +83,7 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
   enabled_log {
     category = "SQLSecurityAuditEvents"
   }
+
+  # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
+  depends_on = [azurerm_mssql_database.primary]
 }
