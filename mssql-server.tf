@@ -90,6 +90,10 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
     category = "SQLSecurityAuditEvents"
   }
 
-  # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
-  depends_on = [azurerm_mssql_database.primary]
+  depends_on = [
+    # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
+    azurerm_mssql_database.primary,
+    # Ensure role assignment exists first (for Managed Identity access to Storage Account)
+    azurerm_role_assignment.mssql_has_storage_blob_data_contributor
+  ]
 }
