@@ -35,21 +35,33 @@ resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
   server_id = azurerm_mssql_server.mssql.id
 }
 
-resource "azurerm_monitor_diagnostic_setting" "mssql_server_to_log_analytics" {
-  name                       = "ds_mssql_log_analytics"
-  target_resource_id         = "${azurerm_mssql_server.mssql.id}/databases/master"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+# resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
+#   name                       = "diagnostic_setting"
+#   target_resource_id         = "${azurerm_mssql_server.mssql.id}/databases/master"
+#   log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
 
-  enabled_log {
-    category = "SQLSecurityAuditEvents"
-  }
-}
+#   enabled_log {
+#     category = "SQLSecurityAuditEvents"
+#   }
+# }
 
-resource "azurerm_monitor_diagnostic_setting" "mssql_server_to_event_hub" {
-  name                           = "ds_mssql_event_hub"
+# resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
+#   name                           = "diagnostic_setting"
+#   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
+#   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
+#   eventhub_name                  = azurerm_eventhub_namespace.eh.name
+
+#   enabled_log {
+#     category = "SQLSecurityAuditEvents"
+#   }
+# }
+
+resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
+  name                           = "diagnostic_setting"
   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
   eventhub_name                  = azurerm_eventhub_namespace.eh.name
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.la.id
 
   enabled_log {
     category = "SQLSecurityAuditEvents"
