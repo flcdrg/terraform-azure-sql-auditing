@@ -30,3 +30,7 @@ resource "azurerm_mssql_firewall_rule" "azure_services" {
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }
+
+resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
+  server_id = azurerm_mssql_server.mssql.id
+}
