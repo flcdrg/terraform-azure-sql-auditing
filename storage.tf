@@ -1,5 +1,12 @@
+resource "random_string" "storage_suffix" {
+  numeric = true
+  special = false
+  length  = 3
+  upper   = false
+}
+
 resource "azurerm_storage_account" "storage" {
-  name                            = "sttfsqlauditaue"
+  name                            = "sttfsqlauditaue${random_string.storage_suffix.result}"
   resource_group_name             = data.azurerm_resource_group.rg.name
   location                        = data.azurerm_resource_group.rg.location
   account_tier                    = "Standard"
