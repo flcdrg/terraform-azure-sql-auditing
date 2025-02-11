@@ -104,7 +104,7 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "mssql_server_eventhub" {
-  name                           = "diagnostic_setting"
+  name                           = "diagnostic_setting_eventhub"
   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
   eventhub_name                  = azurerm_eventhub.eh.name
