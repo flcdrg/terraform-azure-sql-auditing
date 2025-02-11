@@ -9,4 +9,6 @@ resource "azurerm_log_analytics_solution" "example" {
     publisher = "Microsoft"
     product   = "SQLAuditing"
   }
+
+  depends_on = [azurerm_monitor_diagnostic_setting.mssql_server]
 }
