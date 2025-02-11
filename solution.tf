@@ -16,7 +16,7 @@
 #   depends_on = [azurerm_monitor_diagnostic_setting.mssql_server]
 # }
 
-resource "azapi_resource" "symbolicname" {
+resource "azapi_resource" "solution" {
   type      = "Microsoft.OperationsManagement/solutions@2015-11-01-preview"
   name      = "SQLAuditing[${azurerm_log_analytics_workspace.la.name}]"
   location  = data.azurerm_resource_group.rg.location
@@ -39,4 +39,6 @@ resource "azapi_resource" "symbolicname" {
       workspaceResourceId = azurerm_log_analytics_workspace.la.id
     }
   }
+
+  depends_on = [azurerm_log_analytics_workspace.la]
 }
