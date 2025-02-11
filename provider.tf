@@ -25,5 +25,13 @@ terraform {
 
 
 provider "azurerm" {
-  features {}
+  features {
+    application_insights {
+      disable_generated_rule = true
+    }
+
+    log_analytics_workspace {
+      permanently_delete_on_destroy = true
+    }
+  }
 }
