@@ -102,3 +102,26 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
     ignore_changes = [enabled_log, metric, log_analytics_destination_type]
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "mssql_server_eventhub" {
+  name                           = "diagnostic_setting"
+  target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
+  eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
+  eventhub_name                  = azurerm_eventhub.eh.name
+
+  enabled_log {
+    category = "SQLSecurityAuditEvents"
+  }
+
+  depends_on = [
+    # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
+    azurerm_mssql_database.primary,
+    # Ensure role assignment exists first (for Managed Identity access to Storage Account)
+    azurerm_role_assignment.mssql_has_storage_blob_data_contributor
+  ]
+
+  lifecycle {
+    // Mitigate https://github.com/hashicorp/terraform-provider-azurerm/issues/10388 and https://github.com/hashicorp/terraform-provider-azurerm/issues/17779
+    ignore_changes = [enabled_log, metric]
+  }
+}
