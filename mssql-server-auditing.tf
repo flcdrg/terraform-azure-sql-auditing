@@ -1,6 +1,8 @@
 # Use this if you just want Auditing for Log Analytics and/or Event Hub
 resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
   server_id = azurerm_mssql_server.mssql.id
+
+  depends_on = [azurerm_monitor_diagnostic_setting.mssql_server]
 }
 
 # Use Storage Account for Extended Auditing
@@ -33,16 +35,16 @@ resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
 #   }
 # }
 
-# resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
-#   name                           = "diagnostic_setting"
-#   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
-#   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
-#   eventhub_name                  = azurerm_eventhub_namespace.eh.name
+resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
+  name                           = "diagnostic_setting"
+  target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
+  eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
+  eventhub_name                  = azurerm_eventhub_namespace.eh.name
 
-#   enabled_log {
-#     category = "SQLSecurityAuditEvents"
-#   }
-# }
+  enabled_log {
+    category = "SQLSecurityAuditEvents"
+  }
+}
 
 # resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
 #   name                           = "diagnostic_setting"
