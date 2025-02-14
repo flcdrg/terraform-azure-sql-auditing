@@ -39,7 +39,7 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
   name                           = "diagnostic_setting"
   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
-  eventhub_name                  = azurerm_eventhub_namespace.eh.name
+  eventhub_name                  = azurerm_eventhub.eh.name
 
   enabled_log {
     category = "SQLSecurityAuditEvents"
