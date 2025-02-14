@@ -44,28 +44,28 @@
 #   }
 # }
 
-resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
-  name                           = "diagnostic_setting"
-  target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
-  eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
-  eventhub_name                  = azurerm_eventhub.eh.name
+# resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
+#   name                           = "diagnostic_setting"
+#   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
+#   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
+#   eventhub_name                  = azurerm_eventhub.eh.name
 
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
-  storage_account_id         = azurerm_storage_account.storage.id
+#   log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+#   storage_account_id         = azurerm_storage_account.storage.id
 
-  enabled_log {
-    category = "SQLSecurityAuditEvents"
-  }
+#   enabled_log {
+#     category = "SQLSecurityAuditEvents"
+#   }
 
-  depends_on = [
-    # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
-    azurerm_mssql_database.primary,
-    # Ensure role assignment exists first (for Managed Identity access to Storage Account)
-    azurerm_role_assignment.mssql_has_storage_blob_data_contributor
-  ]
+#   depends_on = [
+#     # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
+#     azurerm_mssql_database.primary,
+#     # Ensure role assignment exists first (for Managed Identity access to Storage Account)
+#     azurerm_role_assignment.mssql_has_storage_blob_data_contributor
+#   ]
 
-  # lifecycle {
-  #   // Mitigate https://github.com/hashicorp/terraform-provider-azurerm/issues/10388 and https://github.com/hashicorp/terraform-provider-azurerm/issues/17779
-  #   ignore_changes = [enabled_log, metric, log_analytics_destination_type]
-  # }
-}
+#   # lifecycle {
+#   #   // Mitigate https://github.com/hashicorp/terraform-provider-azurerm/issues/10388 and https://github.com/hashicorp/terraform-provider-azurerm/issues/17779
+#   #   ignore_changes = [enabled_log, metric, log_analytics_destination_type]
+#   # }
+# }
