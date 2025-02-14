@@ -1,6 +1,6 @@
 # terraform-azure-sql-auditing
 
-Enabling Azure SQL extended auditing in Terraform
+Enabling Azure SQL extended auditing in Terraform using [azurerm_mssql_server_extended_auditing_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_server_extended_auditing_policy) and [azurerm_monitor_diagnostic_setting](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting)
 
 See also:
 
