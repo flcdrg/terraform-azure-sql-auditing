@@ -4,14 +4,14 @@
 # }
 
 # Use Storage Account for Extended Auditing
-resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
-  server_id = azurerm_mssql_server.mssql.id
+# resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
+#   server_id = azurerm_mssql_server.mssql.id
 
-  storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
-  storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
-  storage_account_access_key_is_secondary = false
-  retention_in_days                       = 6
-}
+#   storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
+#   storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
+#   storage_account_access_key_is_secondary = false
+#   retention_in_days                       = 6
+# }
 
 # Use Storage Account for Extended Auditing, with managed identity authentication
 # resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
