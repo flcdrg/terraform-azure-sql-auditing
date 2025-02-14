@@ -1,7 +1,7 @@
 # Use this if you just want Auditing for Log Analytics and/or Event Hub
-# resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
-#   server_id = azurerm_mssql_server.mssql.id
-# }
+resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
+  server_id = azurerm_mssql_server.mssql.id
+}
 
 # Use Storage Account for Extended Auditing
 # resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
