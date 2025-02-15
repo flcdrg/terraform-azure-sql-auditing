@@ -6,12 +6,13 @@ resource "random_string" "storage_suffix" {
 }
 
 resource "azurerm_storage_account" "storage" {
-  name                            = "sttfsqlauditaue${random_string.storage_suffix.result}"
-  resource_group_name             = data.azurerm_resource_group.rg.name
-  location                        = data.azurerm_resource_group.rg.location
-  account_tier                    = "Standard"
-  account_replication_type        = "LRS"
-  allow_nested_items_to_be_public = false
+  name                             = "sttfsqlauditaue${random_string.storage_suffix.result}"
+  resource_group_name              = data.azurerm_resource_group.rg.name
+  location                         = data.azurerm_resource_group.rg.location
+  account_tier                     = "Standard"
+  account_replication_type         = "LRS"
+  allow_nested_items_to_be_public  = false
+  cross_tenant_replication_enabled = false
 }
 
 # Required for using Managed Identity to authenticate to the Storage Account

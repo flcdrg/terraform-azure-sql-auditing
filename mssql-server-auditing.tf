@@ -71,6 +71,34 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
     category = "SQLSecurityAuditEvents"
   }
 
+  # These are created by default, so just map them to avoid Terraform thinking they've been removed
+  metric {
+    category = "Basic"
+    enabled  = false
+    retention_policy {
+      enabled = false
+      days    = 0
+    }
+  }
+
+  metric {
+    category = "InstanceAndAppAdvanced"
+    enabled  = false
+    retention_policy {
+      enabled = false
+      days    = 0
+    }
+  }
+  metric {
+    category = "WorkloadManagement"
+    enabled  = false
+    retention_policy {
+      enabled = false
+      days    = 0
+    }
+
+  }
+
   depends_on = [
     # Wait for master database to be created. Workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/22226
     azurerm_mssql_database.primary,
