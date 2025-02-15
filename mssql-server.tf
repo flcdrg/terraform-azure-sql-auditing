@@ -3,8 +3,16 @@ resource "random_password" "password" {
   override_special = "!#%&*()-_=+[]{}<>:?"
 }
 
+# Ensure we always have a unique name (to avoid any doubt of old settings persisting)
+resource "random_string" "sql_suffix" {
+  numeric = true
+  special = false
+  length  = 3
+  upper   = false
+}
+
 resource "azurerm_mssql_server" "mssql" {
-  name                          = "sql-terraform-sql-auditing-australiaeast"
+  name                          = "sql-terraform-sql-auditing-${random_string.sql_suffix.result}australiaeast"
   resource_group_name           = data.azurerm_resource_group.rg.name
   location                      = data.azurerm_resource_group.rg.location
   minimum_tls_version           = "1.2"

@@ -1,3 +1,11 @@
+# Ensure we always have a unique name (to avoid any doubt of old settings persisting)
+resource "random_string" "diagnostic_suffix" {
+  numeric = true
+  special = false
+  length  = 3
+  upper   = false
+}
+
 # Use this if you just want Auditing for Log Analytics and/or Event Hub
 # resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
 #   server_id = azurerm_mssql_server.mssql.id
@@ -51,7 +59,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
 # }
 
 resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
-  name                           = "diagnostic_setting"
+  name                           = "diagnostic_setting_${random_string.diagnostic_suffix.result}"
   target_resource_id             = "${azurerm_mssql_server.mssql.id}/databases/master"
   eventhub_authorization_rule_id = azurerm_eventhub_namespace_authorization_rule.eh.id
   eventhub_name                  = azurerm_eventhub.eh.name
