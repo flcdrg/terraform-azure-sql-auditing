@@ -13,6 +13,7 @@ resource "azurerm_storage_account" "storage" {
   account_replication_type         = "LRS"
   allow_nested_items_to_be_public  = false
   cross_tenant_replication_enabled = false
+  min_tls_version                  = "TLS1_2"
 }
 
 # Required for using Managed Identity to authenticate to the Storage Account
