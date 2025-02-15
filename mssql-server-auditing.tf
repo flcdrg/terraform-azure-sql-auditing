@@ -9,6 +9,7 @@
 # resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
 #   server_id = azurerm_mssql_server.mssql.id
 
+#   storage_account_subscription_id = data.azurerm_client_config.current.subscription_id
 #   storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
 #   storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
 #   storage_account_access_key_is_secondary = false
@@ -19,8 +20,9 @@
 resource "azurerm_mssql_server_extended_auditing_policy" "auditing" {
   server_id = azurerm_mssql_server.mssql.id
 
-  storage_endpoint  = azurerm_storage_account.storage.primary_blob_endpoint
-  retention_in_days = 6
+  storage_account_subscription_id = data.azurerm_client_config.current.subscription_id
+  storage_endpoint                = azurerm_storage_account.storage.primary_blob_endpoint
+  retention_in_days               = 6
 
   depends_on = [azurerm_monitor_diagnostic_setting.mssql_server]
 }
