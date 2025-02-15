@@ -1,11 +1,19 @@
 # Enabling Azure SQL auditing with Terraform
 
+## Overview
+
 Enabling Azure SQL extended auditing in Terraform using [azurerm_mssql_server_extended_auditing_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_server_extended_auditing_policy) and [azurerm_monitor_diagnostic_setting](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting)
 
 See also:
 
 - <https://learn.microsoft.com/en-us/azure/templates/microsoft.sql/servers/extendedauditingsettings?pivots=deployment-language-bicep&WT.mc_id=DOP-MVP-5001655>
 - <https://learn.microsoft.com/azure/azure-sql/database/auditing-server-level-database-level?view=azuresql&WT.mc_id=DOP-MVP-5001655>
+
+### Use of random strings in resource names
+
+A few of the Terraform resources in this repo utilise `random_string` to ensure that Azure resource names are unlikely to match any previous deployments prior to all the resourced being deleted by the **Destroy** pipeline. This is to try and mitigate the possibility that when a resource was recreated with the same name, that it might pick up configuration from the previously deleted version. This shouldn't happen, but while I was creating this example I saw a few times some unexpected errors that didn't really make sense. So I've added this to help try and eliminate the chance of it ever happening.
+
+If you're deploying resources and don't intend to delete them regularly, then you probably don't need to worry about adding random characters in the name, and can ignore this.
 
 ## Developer/environment configuration
 
