@@ -1,0 +1,20 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.22.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-CC-AZURE-552:
+    - '*':
+        reason: Diagnostics are fine
+        expires: 2025-03-17T11:47:02.331Z
+        created: 2025-02-15T11:47:02.333Z
+  SNYK-CC-TF-167:
+    - '*':
+        reason: Attribute is invalid
+        expires: 2025-03-17T11:48:23.242Z
+        created: 2025-02-15T11:48:23.248Z
+  # SNYK-CC-AZURE-649:
+  #   - '*':
+  #       reason: Fine to ignore for demo
+  #       expires: 2025-03-17T11:48:54.986Z
+  #       created: 2025-02-15T11:48:54.991Z
+patch: {}

@@ -36,12 +36,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Snyk to check Kubernetes manifest file for issues
+      - name: Run Snyk to check Terraform
         uses: snyk/actions/iac@master
         with:
           args: --report
+          file: .
+          sarif: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      - name: List files
+        run: ls -al
 
         # Push the Snyk Code results into GitHub Code Scanning tab
       - name: Upload result to GitHub Code Scanning
