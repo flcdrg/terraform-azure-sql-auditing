@@ -1,4 +1,4 @@
-# terraform-azure-sql-auditing
+# Enabling Azure SQL auditing with Terraform
 
 Enabling Azure SQL extended auditing in Terraform using [azurerm_mssql_server_extended_auditing_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_server_extended_auditing_policy) and [azurerm_monitor_diagnostic_setting](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting)
 
@@ -83,4 +83,3 @@ To allow the GitHub Action workflows to connect to HCP Terraform, in the GitHub 
 2. In **Actions**, click on **New repository secret**
 3. In **Name**, enter `TF_API_TOKEN`
 4. In **Secret**, paste the HCP Terraform token, and click **Add secret**
-
