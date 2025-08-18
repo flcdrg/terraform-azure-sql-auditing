@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Dump environment variables
         run: env -0 | sort -z | tr '\0' '\n'
