@@ -73,31 +73,8 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
   }
 
   # These are created by default, so just map them to avoid Terraform thinking they've been removed
-  metric {
-    category = "Basic"
-    enabled  = false
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
-  }
-
-  metric {
-    category = "InstanceAndAppAdvanced"
-    enabled  = false
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
-  }
-  metric {
-    category = "WorkloadManagement"
-    enabled  = false
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
-
+  enabled_metric {
+    category = "AllMetrics"
   }
 
   depends_on = [
