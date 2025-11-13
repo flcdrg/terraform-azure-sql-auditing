@@ -72,9 +72,18 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
     category_group = "allLogs"
   }
 
-  # These are created by default, so just map them to avoid Terraform thinking they've been removed
+  # These are created by default, so just map them to avoid Terraform thinking they've been removed. 
+  # Using 'AllMetrics' will confuse Terraform as it keep creating that as a new metric and remove these individual ones
   enabled_metric {
-    category = "AllMetrics"
+    category = "Basic"
+  }
+
+  enabled_metric {
+    category = "InstanceAndAppAdvanced"
+  }
+
+  enabled_metric {
+    category = "WorkloadManagement"
   }
 
   depends_on = [
