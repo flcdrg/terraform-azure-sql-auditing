@@ -68,7 +68,8 @@ resource "azurerm_monitor_diagnostic_setting" "mssql_server" {
   #storage_account_id         = azurerm_storage_account.storage.id
 
   enabled_log {
-    category = "SQLSecurityAuditEvents"
+    #category = "SQLSecurityAuditEvents"
+    category_group = "allLogs"
   }
 
   # These are created by default, so just map them to avoid Terraform thinking they've been removed
